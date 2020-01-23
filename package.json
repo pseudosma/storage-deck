@@ -1,7 +1,7 @@
 {
   "name": "storage-deck",
   "version": "1.0.0",
-  "description": "",
+  "description": "A robust abstraction built upon localStorage and sessionStorage with automatic fallback to global in-memory storage if browser storage is unavailable or size is exceeded.",
   "main": "lib/index.js",
   "files": [
     "lib/**/*"
@@ -14,8 +14,8 @@
     "prepare" : "npm run build",
     "prepublishOnly" : "npm test && npm run lint"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": ["deck", "localStorage", "overflow", "sessionStorage", "storage", "web"],
+  "author": "David Paige",
   "license": "MIT",
   "devDependencies": {
     "@types/jest": "^24.9.0",
