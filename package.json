@@ -1,8 +1,26 @@
 {
   "name": "storage-deck",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "A robust abstraction built upon localStorage and sessionStorage with automatic fallback to global in-memory storage if browser storage is unavailable or size is exceeded.",
-  "main": "lib/index.js",
+  "main": "lib/main.js",
+  "homepage": "https://github.com/pseudosma/storage-deck",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/pseudosma/storage-deck.git"
+  },
+  "bugs": {
+    "url": "https://github.com/pseudosma/storage-deck/issues"
+  },
+  "keywords": [
+    "deck",
+    "localStorage",
+    "overflow",
+    "sessionStorage",
+    "storage",
+    "web"
+  ],
+  "license": "MIT",
+  "author": "David Paige",
   "files": [
     "lib/**/*"
   ],
@@ -10,20 +28,22 @@
     "format": "prettier --write \"src/**/*.ts\" \"src/**/*.js\"",
     "lint": "tslint -p tsconfig.json",
     "test": "jest --config jestconfig.json",
-    "build": "tsc",
-    "prepare" : "npm run build",
-    "prepublishOnly" : "npm test && npm run lint"
+    "build": "webpack -p",
+    "prepare": "npm run build",
+    "prepublishOnly": "npm test && npm run lint"
   },
-  "keywords": ["deck", "localStorage", "overflow", "sessionStorage", "storage", "web"],
-  "author": "David Paige",
-  "license": "MIT",
   "devDependencies": {
     "@types/jest": "^24.9.0",
-    "jest": "^24.9.0",  
+    "jest": "^24.9.0",
     "prettier": "^1.19.1",
     "ts-jest": "^24.3.0",
+    "ts-loader": "^6.2.1",
     "tslint": "^5.20.1",
     "tslint-config-prettier": "^1.18.0",
-    "typescript": "^3.7.5"
+    "typescript": "^3.7.5",
+    "uglify-js": "^3.7.6",
+    "uglifyjs-webpack-plugin": "^2.2.0",
+    "webpack": "^4.41.5",
+    "webpack-cli": "^3.3.10"
   }
 }
