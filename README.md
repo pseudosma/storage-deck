@@ -64,7 +64,7 @@ retrieveFromStorage(key: string, storageName: string): any
 
 ### Do's
 
-* If you're application is using ES6 or better, import just the functions you need. Storage Deck can be imported in its entirety in a `require` statement too, if using CommonJS/ES5.
+* If you're application is using ES6 or better, import just the functions you need. Storage Deck can be imported in its entirety in a `require` statement too, if using CommonJS.
 
 ### Don'ts
 
