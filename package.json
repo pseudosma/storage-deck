@@ -1,8 +1,9 @@
 {
   "name": "storage-deck",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "A robust abstraction built upon localStorage and sessionStorage with automatic fallback to global in-memory storage if browser storage is unavailable or size is exceeded.",
-  "main": "lib/main.js",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
   "homepage": "https://github.com/pseudosma/storage-deck",
   "repository": {
     "type": "git",
@@ -28,7 +29,7 @@
     "format": "prettier --write \"src/**/*.ts\" \"src/**/*.js\"",
     "lint": "tslint -p tsconfig.json",
     "test": "jest --config jestconfig.json",
-    "build": "webpack -p",
+    "build": "tsc",
     "prepare": "npm run build",
     "prepublishOnly": "npm test && npm run lint"
   },
@@ -40,10 +41,6 @@
     "ts-loader": "^6.2.1",
     "tslint": "^5.20.1",
     "tslint-config-prettier": "^1.18.0",
-    "typescript": "^3.7.5",
-    "uglify-js": "^3.7.6",
-    "uglifyjs-webpack-plugin": "^2.2.0",
-    "webpack": "^4.41.5",
-    "webpack-cli": "^3.3.10"
+    "typescript": "^3.7.5"
   }
 }
