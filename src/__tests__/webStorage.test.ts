@@ -7,7 +7,7 @@ import {
   removeFromSessionStorage,
   retrieveFromLocalStorage,
   retrieveFromSessionStorage
-} from "../index";
+} from "../webStorage";
 
 let overflowString: string = "0123456789";
 describe("when using localStorage", () => {

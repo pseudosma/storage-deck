@@ -6,7 +6,7 @@
     "collectCoverageFrom": [
       "src/*.{ts,js,tsx,jsx}",
       "!**/__tests__/**",
-      "!index.ts"
+      "!src/index.ts"
     ],
     "testRegex": "(/__tests__/.*\\.)(test\\.ts)$",
     "moduleFileExtensions": ["ts", "tsx", "js", "jsx", "json", "node"]
