@@ -139,6 +139,5 @@ describe("when using sessionStorage", () => {
     expect(retrieveFromSessionStorage("dog")).toStrictEqual("cat");
     clearSessionStorage();
   });
-})
+});
 /* tslint:enable:no-string-literal */
-
