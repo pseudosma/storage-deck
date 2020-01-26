@@ -40,7 +40,7 @@ addToSessionStorage(key: string, value: any)
 
 clearSessionStorage()
 
-removeFromSessionStorage = (key: string)
+removeFromSessionStorage(key: string)
 
 retrieveFromSessionStorage(key: string): any 
 ```
