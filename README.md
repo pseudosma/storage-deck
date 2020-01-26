@@ -85,7 +85,7 @@ retrieveFromStorage(key: string, storageName: string): any
   ```
   Doing this will work, but introduces an inconsistency in code structure. It's much better just to use the wrapper functions in all cases.
 
-## Install with [npm](npmjs.org)
+## Install with [npm](https://www.npmjs.com/)
 
 ```bash
 npm i storage-deck --save
