@@ -1,4 +1,4 @@
-# Storage Deck ![license](https://img.shields.io/npm/l/storage-deck)
+# Storage Deck  ![build](https://img.shields.io/travis/pseudosma/storage-deck) ![coverage](https://img.shields.io/coveralls/github/pseudosma/storage-deck) ![license](https://img.shields.io/npm/l/storage-deck)
 
 ## Features
 Storage Deck is a robust interface for interacting with a browser's localStorage and sessionStorage, capable of avoiding some of the common problems that come from using web storage directly. Some of the key features are:
