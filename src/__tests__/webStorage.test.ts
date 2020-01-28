@@ -1,3 +1,4 @@
+import * as sd from "../storageDeck";
 import {
   addToLocalStorage,
   addToSessionStorage,
@@ -10,6 +11,46 @@ import {
 } from "../webStorage";
 
 let overflowString: string = "0123456789";
+
+describe("when using webStorage", () => {
+  it("should throw on setItem for non domExceptions", () => {
+    const s = {
+      store: {
+        setItem: () => {
+          throw new Error("sdkjfjsk");
+        }
+      },
+      scheme: 1
+    };
+    const m = jest.spyOn(sd, "getStorageInstance");
+    m.mockImplementation((n: string) => {
+      return s;
+    });
+    expect(() => {
+      addToSessionStorage("foo", "1234");
+    }).toThrow();
+    m.mockRestore();
+  });
+  it("should throw on setItem for non quota errors", () => {
+    const s = {
+      store: {
+        setItem: () => {
+          throw { type: DOMException, name: "FakeError" };
+        }
+      },
+      scheme: 1
+    };
+    const m = jest.spyOn(sd, "getStorageInstance");
+    m.mockImplementation((n: string) => {
+      return s;
+    });
+    expect(() => {
+      addToSessionStorage("foo", "1234");
+    }).toThrow();
+    m.mockRestore();
+  });
+});
+
 describe("when using localStorage", () => {
   beforeAll(() => {
     let i: number;
@@ -140,4 +181,5 @@ describe("when using sessionStorage", () => {
     clearSessionStorage();
   });
 });
+
 /* tslint:enable:no-string-literal */

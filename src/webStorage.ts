@@ -64,6 +64,8 @@ const addToDefaultStorage = (
         createNewCustomStorage(overflowStorage);
       }
       (window as any)[overflowStorage].setItem(key, value);
+    } else {
+      throw e;
     }
   }
 };
