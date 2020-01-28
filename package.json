@@ -1,6 +1,6 @@
 {
   "name": "storage-deck",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "A robust abstraction built upon localStorage and sessionStorage with automatic fallback to global in-memory storage if browser storage is unavailable or size is exceeded.",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
@@ -29,12 +29,14 @@
     "format": "prettier --write \"src/**/*.ts\" \"src/**/*.js\"",
     "lint": "tslint -p tsconfig.json",
     "test": "jest --config jestconfig.json",
+    "coverallsTest" : "jest --config jestconfig.json && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js",
     "build": "tsc",
     "prepare": "npm run build",
     "prepublishOnly": "npm test && npm run lint"
   },
   "devDependencies": {
     "@types/jest": "^24.9.0",
+    "coveralls": "^3.0.9",
     "jest": "^24.9.0",
     "prettier": "^1.19.1",
     "ts-jest": "^24.3.0",
