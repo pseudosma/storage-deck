@@ -8,7 +8,7 @@ import {
   removeFromSessionStorage,
   retrieveFromLocalStorage,
   retrieveFromSessionStorage
-} from "../webStorage";
+} from "../index";
 
 let overflowString: string = "0123456789";
 

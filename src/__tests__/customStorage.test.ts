@@ -5,7 +5,7 @@ import {
   deleteStorage,
   removeFromStorage,
   retrieveFromStorage
-} from "../customStorage";
+} from "../index";
 
 describe("when using createNewStorage", () => {
   /* tslint:disable:no-string-literal */

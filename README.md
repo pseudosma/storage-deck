@@ -17,7 +17,7 @@ Clearing browser storage will also clear and remove the overflow object until an
 
 Another limitation of localStorage and sessionStorage is that data must be stored as a string. Storage Deck doesn't enforce that same restriction with any global objects that it creates. The core functions for creating and using overflow objects are exposed so that users can easily create their own custom in-memory, non-persistent storage objects for use across a web page.
 
-A typical usage scenario could include using custom storage to temporarily store javascript File objects or even function references, both of which cannot be converted to a string, in a convenient and globally available spot.
+A typical usage scenario could include using custom storage to temporarily store javascript File objects or even function references, both of which cannot be converted with JSON.stringify, in a convenient and globally available spot.
 
 ## Usage
 
