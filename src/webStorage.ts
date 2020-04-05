@@ -4,11 +4,13 @@ import {
   getStorageInstance,
   reservedBaseNames,
   reservedOverflowNames,
+  StorageKey,
+  StorageKeyValuePair,
   StorageScheme
 } from "./storageDeck";
 
 const retrieveFromDefaultStorage = (
-  key: string,
+  key: string|Array<StorageKeyValuePair>,
   storageName: string,
   overflowName: string
 ): any => {
@@ -44,7 +46,7 @@ export const retrieveFromSessionStorage = (key: string): any => {
 };
 
 const addToDefaultStorage = (
-  key: string,
+  key: string|Array<StorageKey>,
   value: any,
   storageName: string,
   overflowStorage: string

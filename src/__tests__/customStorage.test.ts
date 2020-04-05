@@ -1,14 +1,17 @@
 import {
+  addAllToStorage,
   addToStorage,
   clearStorage,
   createNewStorage,
   deleteStorage,
+  removeAllFromStorage,
   removeFromStorage,
-  retrieveFromStorage
+  retrieveAllFromStorage,
+  retrieveFromStorage,
 } from "../index";
 
+/* tslint:disable:no-string-literal */
 describe("when using createNewStorage", () => {
-  /* tslint:disable:no-string-literal */
   beforeAll(() => {
     createNewStorage("testOne");
     (window as any).testOne["test"] = 1;
@@ -78,5 +81,121 @@ describe("when using custom storage", () => {
       retrieveFromStorage("test", "customStorage");
     }).toThrow();
   });
-  /* tslint:enable:no-string-literal */
 });
+
+describe("when using custom storage", () => {
+  beforeEach(() => {
+    createNewStorage("testTwo");
+    const a = [
+      { key: "test", value: "1234"},
+      { key: "1234", value: "test"}
+    ];
+    addAllToStorage(a, "testTwo");
+  });
+  it("should allow more keys to be added with addAll", () => {
+    const a = [
+      { key: "z", value: "1234"},
+      { key: "y", value: "test"}
+    ];
+    addAllToStorage(a, "testTwo");
+    const r = retrieveAllFromStorage(["test", "1234", "z", "y"], "testTwo");
+    if (r) {
+      expect(r.length).toStrictEqual(4);
+    } else {
+      //force error if it's null
+      expect(true).toStrictEqual(false);
+    }
+  });
+  it("should return null if no values are found with returnAll", () => {
+    const r = retrieveAllFromStorage(["z", "y"], "testTwo");
+    expect(r).toBeNull;
+  });
+  it("should retrieve all keys specified by keys with returnAll", () => {
+    const r = retrieveAllFromStorage(["test", "1234"], "testTwo");
+    expect(r!.length).toStrictEqual(2);
+    expect(r![0].value).toStrictEqual("1234");
+    expect(r![1].value).toStrictEqual("test");
+  });
+  it("should retrieve all keys matching RegExp with returnAll", () => {
+    const r = retrieveAllFromStorage([new RegExp(".*","g")], "testTwo");
+    expect(r!.length).toStrictEqual(2);
+    //order will be different
+    r!.forEach((o) => {
+      expect(o.pattern).toStrictEqual(".*");
+      if (o.key === "1234") {
+        expect(o.value).toStrictEqual("test");
+      } else if (o.key === "test") {
+        expect(o.value).toStrictEqual("1234");
+      } else {
+        //force error if it's something else
+        expect(true).toStrictEqual(false);
+      }
+    });
+  });
+  it("should retrieve all keys without dupes matching RegExp with returnAll", () => {
+    const r = retrieveAllFromStorage([new RegExp("[0-9][a-z]*","g"), new RegExp(".*","g")], "testTwo");
+    expect(r!.length).toStrictEqual(2);
+    //order will be different
+    r!.forEach((o) => {
+      if (o.key === "1234") {
+        expect(o.value).toStrictEqual("test");
+      } else if (o.key === "test") {
+        expect(o.value).toStrictEqual("1234");
+      } else {
+        //force error if it's something else
+        expect(true).toStrictEqual(false);
+      }
+    });
+  });
+  it("should retrieve all keys without dupes matching RegExp and strings with returnAll", () => {
+    const r = retrieveAllFromStorage(["test", new RegExp(".*","g")], "testTwo");
+    expect(r!.length).toStrictEqual(2);
+    //order might be different on because the dupes get removed
+    r!.forEach((o) => {
+      if (o.key === "1234") {
+        expect(o.value).toStrictEqual("test");
+      } else if (o.key === "test") {
+        expect(o.value).toStrictEqual("1234");
+      } else {
+        //force error if it's something else
+        expect(true).toStrictEqual(false);
+      }
+    });
+  });
+  it("should removeAll by key", () => {
+    removeAllFromStorage(["test", "1234"], "testTwo");
+    const r = retrieveAllFromStorage(["test", "1234"], "testTwo");
+    expect(r).toBeNull;
+  });
+  it("should removeAll by RegEx", () => {
+    removeAllFromStorage([new RegExp(".*","g")], "testTwo");
+    const r = retrieveAllFromStorage(["test", "1234"], "testTwo");
+    expect(r).toBeNull;
+  });
+  it("should removeAll with multiple RegEx", () => {
+    removeAllFromStorage([new RegExp("[0-9][a-z]*"), new RegExp(".*")], "testTwo");
+    const r = retrieveAllFromStorage(["test", "1234"], "testTwo");
+    expect(r).toBeNull;
+  });
+  it("should removeAll with mixed values", () => {
+    removeAllFromStorage(["test", new RegExp(".*","g")], "testTwo");
+    const r = retrieveAllFromStorage(["test", "1234"], "testTwo");
+    expect(r).toBeNull;
+  });
+  it("should only target specific values with removeAll", () => {
+    removeAllFromStorage(["test"], "testTwo");
+    const r = retrieveAllFromStorage(["test", "1234"], "testTwo");
+    expect(r!.length).toStrictEqual(1);
+    expect(r![0].key).toStrictEqual("1234");
+  });
+  it("should only target specific values with RegEx with removeAll", () => {
+    removeAllFromStorage([new RegExp("test")], "testTwo");
+    const r = retrieveAllFromStorage(["test", "1234"], "testTwo");
+    expect(r!.length).toStrictEqual(1);
+    expect(r![0].key).toStrictEqual("1234");
+  });
+  afterEach(() => {
+    deleteStorage("testTwo");
+  });
+});
+/* tslint:enable:no-string-literal */

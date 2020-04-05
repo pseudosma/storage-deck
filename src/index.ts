@@ -1,11 +1,15 @@
 import {
+  addAllToStorage,
   addToStorage,
   clearStorage,
   createNewStorage,
   deleteStorage,
+  removeAllFromStorage,
   removeFromStorage,
+  retrieveAllFromStorage,
   retrieveFromStorage
 } from "./customStorage";
+import { StorageKey, StorageKeyValuePair } from "./storageDeck";
 import {
   addToLocalStorage,
   addToSessionStorage,
@@ -19,11 +23,14 @@ import {
 
 export {
   addToStorage,
+  addAllToStorage,
   clearStorage,
   createNewStorage,
   deleteStorage,
   removeFromStorage,
+  removeAllFromStorage,
   retrieveFromStorage,
+  retrieveAllFromStorage,
   addToLocalStorage,
   addToSessionStorage,
   clearLocalStorage,
@@ -31,5 +38,7 @@ export {
   removeFromLocalStorage,
   removeFromSessionStorage,
   retrieveFromLocalStorage,
-  retrieveFromSessionStorage
+  retrieveFromSessionStorage,
+  StorageKey,
+  StorageKeyValuePair
 };
