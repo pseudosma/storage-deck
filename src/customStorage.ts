@@ -1,11 +1,19 @@
 import {
+  addToStorageGeneric,
+  removeFromStorageGeneric,
+  retrieveFromStorageGeneric
+} from "./genericFuncs";
+
+import {
   createNewCustomStorage,
   getStorageInstance,
   reservedBaseNames,
-  reservedOverflowNames
+  reservedOverflowNames,
+  StorageKey,
+  StorageKeyValuePair
 } from "./storageDeck";
 
-export const createNewStorage = (name: any) => {
+export const createNewStorage = (name: string) => {
   // for external calls, enforce reservedNames
   const rNames = reservedBaseNames.concat(reservedOverflowNames);
   if (rNames.indexOf(name) > -1) {
@@ -16,16 +24,29 @@ export const createNewStorage = (name: any) => {
   createNewCustomStorage(name);
 };
 
-export const retrieveFromStorage = (key: string, storageName: string): any => {
-  return getStorageInstance(storageName).store.getItem(key, storageName);
+export const retrieveFromStorage = (
+  keys: StorageKey | StorageKey[],
+  storageName: string
+): any => {
+  return retrieveFromStorageGeneric(
+    keys,
+    getStorageInstance(storageName).store,
+    true
+  );
 };
 
-export const addToStorage = (key: string, value: any, storageName: string) => {
-  getStorageInstance(storageName).store.setItem(key, value);
+export const addToStorage = (
+  keyValue: StorageKeyValuePair | StorageKeyValuePair[],
+  storageName: string
+) => {
+  addToStorageGeneric(keyValue, getStorageInstance(storageName).store);
 };
 
-export const removeFromStorage = (key: string, storageName: string) => {
-  getStorageInstance(storageName).store.removeItem(key);
+export const removeFromStorage = (
+  keys: StorageKey | StorageKey[],
+  storageName: string
+) => {
+  removeFromStorageGeneric(keys, getStorageInstance(storageName).store, true);
 };
 
 export const clearStorage = (storageName: string) => {

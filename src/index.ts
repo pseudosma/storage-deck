@@ -6,6 +6,7 @@ import {
   removeFromStorage,
   retrieveFromStorage
 } from "./customStorage";
+import { StorageKey, StorageKeyValuePair } from "./storageDeck";
 import {
   addToLocalStorage,
   addToSessionStorage,
@@ -31,5 +32,7 @@ export {
   removeFromLocalStorage,
   removeFromSessionStorage,
   retrieveFromLocalStorage,
-  retrieveFromSessionStorage
+  retrieveFromSessionStorage,
+  StorageKey,
+  StorageKeyValuePair
 };
