@@ -19,10 +19,11 @@ export type StorageKey = string | RegExp;
 export interface StorageKeyValuePair {
   key: string;
   value: any;
-  pattern?: string; //used when this is a return type to show regEx patten that found the key 
+  pattern?: string; // used when this is a return type to show regEx patten that found the key
+  addedSuccessfully?: boolean; // sentinal value to prevent duplicates
 }
 
-interface Storage {
+export interface Storage {
   readonly storage: Store;
   // mimics the funcs provided by localStorage and sessionStorage
   getItem: (key: string) => any;

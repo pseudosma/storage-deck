@@ -1,4 +1,11 @@
 import { deleteStorage } from "./customStorage";
+
+import {
+  addToStorageGeneric,
+  removeFromStorageGeneric,
+  retrieveFromStorageGeneric
+} from "./genericFuncs";
+
 import {
   createNewCustomStorage,
   getStorageInstance,
@@ -10,26 +17,39 @@ import {
 } from "./storageDeck";
 
 const retrieveFromDefaultStorage = (
-  key: string|Array<StorageKeyValuePair>,
+  keys: StorageKey | StorageKey[],
   storageName: string,
   overflowName: string
 ): any => {
   const s = getStorageInstance(storageName);
-  let i = null;
   if (s.scheme === StorageScheme.Overflow) {
     // if it's in overflow mode, we may have our data in either localStorage or overflowStorage
-    // do basic check first, which should
-    i = s.store.getItem(key);
-    if (i === null) {
-      i = (window as any)[overflowName].getItem(key);
+    // check both locations and concat the results
+    const a: any = retrieveFromStorageGeneric(keys, s.store, false);
+    const b: any = retrieveFromStorageGeneric(
+      keys,
+      (window as any)[overflowName],
+      true
+    );
+    if (a === null) {
+      return b;
     }
+    if (b === null) {
+      return a;
+    }
+    // if this point is reached, we have results from both a and b
+    // the only way we'd get results in both a and b is a regex search
+    // if that's the case, the results, even with one match, will still
+    // be an array
+    return a.concat(b);
   } else {
-    i = s.store.getItem(key);
+    return retrieveFromStorageGeneric(keys, s.store, false);
   }
-  return i;
 };
 
-export const retrieveFromLocalStorage = (key: string): any => {
+export const retrieveFromLocalStorage = (
+  key: StorageKey | StorageKey[]
+): any => {
   return retrieveFromDefaultStorage(
     key,
     reservedBaseNames[0],
@@ -37,7 +57,9 @@ export const retrieveFromLocalStorage = (key: string): any => {
   );
 };
 
-export const retrieveFromSessionStorage = (key: string): any => {
+export const retrieveFromSessionStorage = (
+  key: StorageKey | StorageKey[]
+): any => {
   return retrieveFromDefaultStorage(
     key,
     reservedBaseNames[1],
@@ -46,13 +68,12 @@ export const retrieveFromSessionStorage = (key: string): any => {
 };
 
 const addToDefaultStorage = (
-  key: string|Array<StorageKey>,
-  value: any,
+  keyValue: StorageKeyValuePair | StorageKeyValuePair[],
   storageName: string,
   overflowStorage: string
 ) => {
   try {
-    getStorageInstance(storageName).store.setItem(key, value);
+    addToStorageGeneric(keyValue, getStorageInstance(storageName).store);
   } catch (e) {
     // this error occurs if the storage limit on storage is exceeded
     if (e instanceof DOMException && e.name === "QuotaExceededError") {
@@ -65,49 +86,44 @@ const addToDefaultStorage = (
         // spawn overflowStorage and put the value in there
         createNewCustomStorage(overflowStorage);
       }
-      (window as any)[overflowStorage].setItem(key, value);
+      addToStorageGeneric(keyValue, (window as any)[overflowStorage]);
     } else {
       throw e;
     }
   }
 };
 
-export const addToLocalStorage = (key: string, value: any) => {
-  addToDefaultStorage(
-    key,
-    value,
-    reservedBaseNames[0],
-    reservedOverflowNames[0]
-  );
+export const addToLocalStorage = (
+  keyValue: StorageKeyValuePair | StorageKeyValuePair[]
+) => {
+  addToDefaultStorage(keyValue, reservedBaseNames[0], reservedOverflowNames[0]);
 };
 
-export const addToSessionStorage = (key: string, value: any) => {
-  addToDefaultStorage(
-    key,
-    value,
-    reservedBaseNames[1],
-    reservedOverflowNames[1]
-  );
+export const addToSessionStorage = (
+  keyValue: StorageKeyValuePair | StorageKeyValuePair[]
+) => {
+  addToDefaultStorage(keyValue, reservedBaseNames[1], reservedOverflowNames[1]);
 };
 
 const removeFromDefaultStorage = (
-  key: string,
+  keys: StorageKey | StorageKey[],
   storageName: string,
   overflowName: string
 ) => {
   const s = getStorageInstance(storageName);
   if (s.scheme === StorageScheme.Overflow) {
     // remove from both. this op is safe if one of the lists doesn't contain the item
-    (window as any)[overflowName].removeItem(key);
+    // or if one list doesn't exist
+    removeFromStorageGeneric(keys, (window as any)[overflowName], false);
   }
-  (window as any)[storageName].removeItem(key);
+  removeFromStorageGeneric(keys, s.store, false);
 };
 
-export const removeFromLocalStorage = (key: string) => {
+export const removeFromLocalStorage = (key: StorageKey | StorageKey[]) => {
   removeFromDefaultStorage(key, reservedBaseNames[0], reservedOverflowNames[0]);
 };
 
-export const removeFromSessionStorage = (key: string) => {
+export const removeFromSessionStorage = (key: StorageKey | StorageKey[]) => {
   removeFromDefaultStorage(key, reservedBaseNames[1], reservedOverflowNames[1]);
 };
 

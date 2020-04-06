@@ -1,4 +1,10 @@
 import {
+  addToStorageGeneric,
+  removeFromStorageGeneric,
+  retrieveFromStorageGeneric
+} from "./genericFuncs";
+
+import {
   createNewCustomStorage,
   getStorageInstance,
   reservedBaseNames,
@@ -7,7 +13,7 @@ import {
   StorageKeyValuePair
 } from "./storageDeck";
 
-export const createNewStorage = (name: any) => {
+export const createNewStorage = (name: string) => {
   // for external calls, enforce reservedNames
   const rNames = reservedBaseNames.concat(reservedOverflowNames);
   if (rNames.indexOf(name) > -1) {
@@ -18,85 +24,29 @@ export const createNewStorage = (name: any) => {
   createNewCustomStorage(name);
 };
 
-export const retrieveFromStorage = (key: string, storageName: string): any => {
-  return getStorageInstance(storageName).store.getItem(key, storageName);
-};
-
-export const addToStorage = (key: string, value: any, storageName: string) => {
-  getStorageInstance(storageName).store.setItem(key, value);
-};
-
-export const removeFromStorage = (key: string, storageName: string) => {
-  getStorageInstance(storageName).store.removeItem(key);
-};
-
-export const retrieveAllFromStorage = (
-  keys: Array<StorageKey>,
+export const retrieveFromStorage = (
+  keys: StorageKey | StorageKey[],
   storageName: string
-): Array<StorageKeyValuePair>|null => {
-  const retVal: Array<StorageKeyValuePair> = [];
-  const sd = getStorageInstance(storageName);
-  keys.forEach(key => {
-    if (typeof key === "string") {
-      const v = sd.store.getItem(key);
-      if (v !== null) {
-        retVal.push({key: key, value: v});
-      }
-    } else {
-      Object.keys(sd.store.storage).forEach(k => {
-        const m = k.match(key);
-        if (m !== null) {
-          var r = { 
-            key: k, 
-             value: sd.store.getItem(k),
-            pattern: key.source
-          };
-          retVal.push(r);
-        }
-      });
-    }
-  });
-  if (retVal.length > 0) {
-    //now remove dupicates
-    const rv: Array<StorageKeyValuePair> = [];
-    retVal.forEach((o) => {
-      if (rv.findIndex((r) => o.key === r.key) === -1) {
-        rv.push(o);
-      }
-    });
-    return rv;
-  }
-  return null;
+): any => {
+  return retrieveFromStorageGeneric(
+    keys,
+    getStorageInstance(storageName).store,
+    true
+  );
 };
 
-export const addAllToStorage = (
-  addArgs: Array<StorageKeyValuePair>,
+export const addToStorage = (
+  keyValue: StorageKeyValuePair | StorageKeyValuePair[],
   storageName: string
 ) => {
-  const sd = getStorageInstance(storageName);
-  addArgs.forEach(kv => {
-    sd.store.setItem(kv.key, kv.value);
-  });
+  addToStorageGeneric(keyValue, getStorageInstance(storageName).store);
 };
 
-export const removeAllFromStorage = (
-  keys: Array<StorageKey>,
+export const removeFromStorage = (
+  keys: StorageKey | StorageKey[],
   storageName: string
 ) => {
-  const sd = getStorageInstance(storageName);
-  keys.forEach(key => {
-    if (typeof key === "string") {
-      sd.store.removeItem(key);
-    } else {
-      console.log("RegExp on removeAll");
-      Object.keys(sd.store.storage).forEach(k => {
-        const m = k.match(key);
-        if (m !== null) {
-          sd.store.removeItem(k);
-        }
-      });
-    }
-  });
+  removeFromStorageGeneric(keys, getStorageInstance(storageName).store, true);
 };
 
 export const clearStorage = (storageName: string) => {

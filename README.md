@@ -19,6 +19,10 @@ Another limitation of localStorage and sessionStorage is that data must be store
 
 A typical usage scenario could include using custom storage to temporarily store javascript File objects or even function references, both of which cannot be converted with JSON.stringify, in a convenient and globally available spot.
 
+### What's new in version 1.0.0?
+
+
+
 ## Usage
 
 Storage Deck doesn't require any set up; all of the need to create and configure objects is obfuscated. Instead, Storage Deck exposes functions with similar signatures that can be imported on an as-needed basis.
@@ -26,47 +30,104 @@ Storage Deck doesn't require any set up; all of the need to create and configure
 ### Local Storage Functions
 
 ```typescript
-addToLocalStorage(key: string, value: any)
+// add a single item
+addToLocalStorage(key: { key: string, value: any })
+// or add multiple items
+addToLocalStorage(key: [{ key: string, value: any },{ key: string, value: any )
 
+// clear all of localStorage
 clearLocalStorage()
 
+// remove a single item from storage
 removeFromLocalStorage(key: string)
+// remove multiple items from storage
+removeFromLocalStorage(key: RegExp)
+removeFromLocalStorage(key: [string, string])
+removeFromLocalStorage(key: [string, RegExp])
 
+// retrieve a single item from storage
 retrieveFromLocalStorage(key: string): any
+// retrieve multiple items from storage
+retrieveFromLocalStorage(key: RegExp)
+retrieveFromLocalStorage(key: [string, string])
+retrieveFromLocalStorage(key: [string, RegExp])
 ```
 
 ### Session Storage Functions
 
 ```typescript
-addToSessionStorage(key: string, value: any)
+//add a single item
+addToSessionStorage(key: { key: string, value: any })
+// or add multiple items
+addToSessionStorage(key: [{ key: string, value: any },{ key: string, value: any )
 
+// clear all of sessionStorage
 clearSessionStorage()
 
+// remove a single item from storage
 removeFromSessionStorage(key: string)
+// remove multiple items from storage
+removeFromSessionStorage(key: RegExp)
+removeFromSessionStorage(key: [string, string])
+removeFromSessionStorage(key: [string, RegExp])
 
-retrieveFromSessionStorage(key: string): any 
+// retrieve a single item from storage
+retrieveFromSessionStorage(key: string): any
+// retrieve multiple items from storage
+retrieveFromSessionStorage(key: RegExp)
+retrieveFromSessionStorage(key: [string, string])
+retrieveFromSessionStorage(key: [string, RegExp])
 ```
 
 ### Custom Storage Functions
 
 ```typescript
-addToStorage(key: string, value: any, storageName: string)
+// add single item
+addToStorage({ key: string, value: any }, storageName: string)
+// add multiple items
+addToStorage([{ key: string, value: any },{key: string, value: any }], storageName: string)
 
 clearStorage(storageName: string)
 
-createNewStorage(name: any)
+createNewStorage(name: string)
 
 deleteStorage(storageName: string)
 
+// remove single item
 removeFromStorage(key: string, storageName: string)
+// remove multiple items
+removeFromStorage(key: RegExp, storageName: string)
+removeFromStorage(key: [string, string], storageName: string)
+removeFromStorage(key: [string, RegExp], storageName: string)
 
+// remove single item
 retrieveFromStorage(key: string, storageName: string): any
-
+// retrieve multiple items from storage
+retrieveFromStorage(key: RegExp, storageName: string)
+retrieveFromStorage(key: [string, string], storageName: string)
+retrieveFromStorage(key: [string, RegExp], storageName: string)
 ```
+
+### Custom Types
+
+```typescript
+type StorageKey = string | RegExp;
+
+interface StorageKeyValuePair {
+  key: string;
+  value: any;
+  pattern?: string;
+  addedSuccessfully?: boolean;
+}
+```
+
+* The **StorageKey** type, or an array of that same type, is the input for the remove and retrieve functions.
+* An object conforming to the  **StorageKeyValuePair** interface, or an array of that same type, is the input for the add functions. An array of these objects is the return value for the retrieve functions if the search inputs produce multiple results.
 
 ### Do's
 
 * If you're application is using ES6 or better, import just the functions you need. Storage Deck can be imported in its entirety in a `require` statement too, if using CommonJS.
+* Use very specific regEx for key searches. If even part of the pattern matches the key, the corresponding value will be returned. 
 
 ### Don'ts
 
