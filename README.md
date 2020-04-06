@@ -21,7 +21,9 @@ A typical usage scenario could include using custom storage to temporarily store
 
 ### What's new in version 1.0.0?
 
+Now you can add items to storage in bulk, as well as retrieve and remove them in bulk.
 
+The retrieval and removal functions also support use of RegEx searches to find items.
 
 ## Usage
 
