@@ -31,22 +31,31 @@ Storage Deck doesn't require any set up; all of the need to create and configure
 
 ### Local Storage Functions
 
+#### Add items
 ```typescript
 // add a single item
 addToLocalStorage(key: { key: string, value: any })
 // or add multiple items
 addToLocalStorage(key: [{ key: string, value: any },{ key: string, value: any )
+```
 
-// clear all of localStorage
+#### Clear all items
+```typescript
 clearLocalStorage()
+```
 
+#### Remove items
+```typescript
 // remove a single item from storage
 removeFromLocalStorage(key: string)
 // remove multiple items from storage
 removeFromLocalStorage(key: RegExp)
 removeFromLocalStorage(key: [string, string])
 removeFromLocalStorage(key: [string, RegExp])
+```
 
+#### Get items
+```typescript
 // retrieve a single item from storage
 retrieveFromLocalStorage(key: string): any
 // retrieve multiple items from storage
@@ -57,22 +66,31 @@ retrieveFromLocalStorage(key: [string, RegExp])
 
 ### Session Storage Functions
 
+#### Add items
 ```typescript
 //add a single item
 addToSessionStorage(key: { key: string, value: any })
 // or add multiple items
 addToSessionStorage(key: [{ key: string, value: any },{ key: string, value: any )
+```
 
-// clear all of sessionStorage
+#### Clear all items
+```typescript
 clearSessionStorage()
+```
 
+#### Remove items
+```typescript
 // remove a single item from storage
 removeFromSessionStorage(key: string)
 // remove multiple items from storage
 removeFromSessionStorage(key: RegExp)
 removeFromSessionStorage(key: [string, string])
 removeFromSessionStorage(key: [string, RegExp])
+```
 
+#### Get items
+```typescript
 // retrieve a single item from storage
 retrieveFromSessionStorage(key: string): any
 // retrieve multiple items from storage
@@ -83,26 +101,41 @@ retrieveFromSessionStorage(key: [string, RegExp])
 
 ### Custom Storage Functions
 
+#### Add items
 ```typescript
 // add single item
 addToStorage({ key: string, value: any }, storageName: string)
 // add multiple items
 addToStorage([{ key: string, value: any },{key: string, value: any }], storageName: string)
+```
 
+#### Clear all items
+``` typescript
 clearStorage(storageName: string)
+```
 
+#### Create a new global storage instance
+``` typescript
 createNewStorage(name: string)
-
+```
+#### Delete a global storage instance
+``` typescript
 deleteStorage(storageName: string)
+```
 
+#### Remove items
+``` typescript
 // remove single item
 removeFromStorage(key: string, storageName: string)
 // remove multiple items
 removeFromStorage(key: RegExp, storageName: string)
 removeFromStorage(key: [string, string], storageName: string)
 removeFromStorage(key: [string, RegExp], storageName: string)
+```
 
-// remove single item
+#### Get items
+``` typescript
+// retrieve single item
 retrieveFromStorage(key: string, storageName: string): any
 // retrieve multiple items from storage
 retrieveFromStorage(key: RegExp, storageName: string)
@@ -111,7 +144,6 @@ retrieveFromStorage(key: [string, RegExp], storageName: string)
 ```
 
 ### Custom Types
-
 ```typescript
 type StorageKey = string | RegExp;
 
@@ -129,7 +161,7 @@ interface StorageKeyValuePair {
 ### Do's
 
 * If you're application is using ES6 or better, import just the functions you need. Storage Deck can be imported in its entirety in a `require` statement too, if using CommonJS.
-* Use very specific regEx for key searches. If even part of the pattern matches the key, the corresponding value will be returned. 
+* Use very specific RegEx for key searches. If part of the pattern matches the key, the corresponding value will be returned. 
 
 ### Don'ts
 
