@@ -34,9 +34,9 @@ Storage Deck doesn't require any set up; all of the need to create and configure
 #### Add items
 ```typescript
 // add a single item
-addToLocalStorage(key: { key: string, value: any })
+addToLocalStorage(keyValue: StorageKeyValuePair)
 // or add multiple items
-addToLocalStorage(key: [{ key: string, value: any },{ key: string, value: any )
+addToLocalStorage(keyValue: [...StorageKeyValuePair])
 ```
 
 #### Clear all items
@@ -57,7 +57,7 @@ removeFromLocalStorage(key: [string, RegExp])
 #### Get items
 ```typescript
 // retrieve a single item from storage
-retrieveFromLocalStorage(key: string): any
+retrieveFromLocalStorage(key: string): string | StorageKeyValuePair[]
 // retrieve multiple items from storage
 retrieveFromLocalStorage(key: RegExp)
 retrieveFromLocalStorage(key: [string, string])
@@ -69,9 +69,9 @@ retrieveFromLocalStorage(key: [string, RegExp])
 #### Add items
 ```typescript
 //add a single item
-addToSessionStorage(key: { key: string, value: any })
+addToSessionStorage(keyValue: StorageKeyValuePair)
 // or add multiple items
-addToSessionStorage(key: [{ key: string, value: any },{ key: string, value: any )
+addToSessionStorage(keyValue: [...StorageKeyValuePair )
 ```
 
 #### Clear all items
@@ -92,7 +92,7 @@ removeFromSessionStorage(key: [string, RegExp])
 #### Get items
 ```typescript
 // retrieve a single item from storage
-retrieveFromSessionStorage(key: string): any
+retrieveFromSessionStorage(key: string): string | StorageKeyValuePair[]
 // retrieve multiple items from storage
 retrieveFromSessionStorage(key: RegExp)
 retrieveFromSessionStorage(key: [string, string])
@@ -104,9 +104,9 @@ retrieveFromSessionStorage(key: [string, RegExp])
 #### Add items
 ```typescript
 // add single item
-addToStorage({ key: string, value: any }, storageName: string)
+addToStorage(keyValue: StorageKeyValuePair, storageName: string)
 // add multiple items
-addToStorage([{ key: string, value: any },{key: string, value: any }], storageName: string)
+addToStorage(keyValue: [...StorageKeyValuePair], storageName: string)
 ```
 
 #### Clear all items
@@ -136,7 +136,7 @@ removeFromStorage(key: [string, RegExp], storageName: string)
 #### Get items
 ``` typescript
 // retrieve single item
-retrieveFromStorage(key: string, storageName: string): any
+retrieveFromStorage(key: string, storageName: string): any | StorageKeyValuePair[]
 // retrieve multiple items from storage
 retrieveFromStorage(key: RegExp, storageName: string)
 retrieveFromStorage(key: [string, string], storageName: string)
@@ -156,7 +156,10 @@ interface StorageKeyValuePair {
 ```
 
 * The **StorageKey** type, or an array of that same type, is the input for the remove and retrieve functions.
-* An object conforming to the  **StorageKeyValuePair** interface, or an array of that same type, is the input for the add functions. An array of these objects is the return value for the retrieve functions if the search inputs produce multiple results.
+* An object conforming to the  **StorageKeyValuePair** interface, or an array of that same type, is the input for the add functions.
+  
+> :warning: When using any of Storage Deck's retrieve function, if RegEx or an array of items is supplied, rather than a single value returned an array of **StorageKeyValuePair** is returned. The *key* or *pattern* fields denote which item the value returned matched.
+
 
 ### Do's
 
