@@ -77,7 +77,9 @@ describe("when using custom storage", () => {
     // trying to retrieve from a deleted storage should throw
     expect(() => {
       retrieveFromStorage("test", "customStorage");
-    }).toThrow();
+    }).toThrowError(
+      new Error('No storage instance named "customStorage" found')
+    );
   });
 });
 
