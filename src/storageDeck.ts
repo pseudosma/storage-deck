@@ -120,6 +120,9 @@ export const getStorageInstance = (name: string): StorageDeck => {
     }
   } else {
     store = (window as any)[name];
+    if (typeof store === "undefined") {
+      throw new Error('No storage instance named "' + name + '" found');
+    }
   }
   return new StorageDeck(store, scheme);
 };
