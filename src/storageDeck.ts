@@ -1,3 +1,5 @@
+import { Searchable } from "searchability";
+
 export const reservedBaseNames: string[] = ["localStorage", "sessionStorage"];
 export const reservedOverflowNames: string[] = [
   "localOverflowStorage",
@@ -14,13 +16,13 @@ interface Store {
   [index: string]: any;
 }
 
-export type StorageKey = string | RegExp;
+export type StorageKey = string | RegExp | Searchable;
 
 export interface StorageKeyValuePair {
   key: string;
   value: any;
   pattern?: string; // used when this is a return type to show regEx patten that found the key
-  addedSuccessfully?: boolean; // sentinal value to prevent duplicates
+  addedSuccessfully?: boolean; // sentinel value to prevent duplicates
 }
 
 export interface Storage {

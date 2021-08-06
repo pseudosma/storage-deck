@@ -1,3 +1,4 @@
+import { Search } from "searchability";
 import { Storage, StorageKey, StorageKeyValuePair } from "./storageDeck";
 
 const addAll = (keys: StorageKeyValuePair[], storageInstance: Storage) => {
@@ -40,22 +41,35 @@ const retrieveAll = (
       const storage = isCustomStorage
         ? storageInstance.storage
         : storageInstance;
-      Object.keys(storage).forEach(k => {
-        const m = k.match(ke);
-        if (m !== null && m[0] !== "") {
-          // this does not always come back null
-          const r = {
-            key: k,
-            pattern: ke.source,
-            value: storageInstance.getItem(k)
-          };
-          retVal.push(r);
-        }
-      });
+      if (ke instanceof RegExp) {
+        Object.keys(storage).forEach(k => {
+          const m = k.match(ke);
+          if (m !== null && m[0] !== "") {
+            // this does not always come back null
+            const r = {
+              key: k,
+              pattern: ke.source,
+              value: storageInstance.getItem(k)
+            };
+            retVal.push(r);
+          }
+        });
+      } else {
+        // this will be a Searchable
+        Object.keys(storage).forEach(k => {
+          if (Search(ke, k)) {
+            const r = {
+              key: k,
+              value: storageInstance.getItem(k)
+            };
+            retVal.push(r);
+          }
+        });
+      }
     }
   });
   if (retVal.length > 0) {
-    // now remove dupicates
+    // now remove duplicates
     const rv: Array<StorageKeyValuePair> = [];
     retVal.forEach(o => {
       if (rv.findIndex(r => o.key === r.key) === -1) {
@@ -77,7 +91,7 @@ export const retrieveFromStorageGeneric = (
   } else if (Array.isArray(keys)) {
     return retrieveAll(keys, store, isCustomStorage);
   } else {
-    // this would be just a RegExp
+    // this would be a RegExp or Searchable. In both cases we should return an array
     return retrieveAll([keys], store, isCustomStorage);
   }
 };
@@ -94,12 +108,20 @@ const removeAll = (
       const storage = isCustomStorage
         ? storageInstance.storage
         : storageInstance;
-      Object.keys(storage).forEach(k => {
-        const m = k.match(key);
-        if (m !== null && m[0] !== "") {
-          storageInstance.removeItem(k);
-        }
-      });
+      if (key instanceof RegExp) {
+        Object.keys(storage).forEach(k => {
+          const m = k.match(key);
+          if (m !== null && m[0] !== "") {
+            storageInstance.removeItem(k);
+          }
+        });
+      } else {
+        Object.keys(storage).forEach(k => {
+          if (Search(key, k)) {
+            storageInstance.removeItem(k);
+          }
+        });
+      }
     }
   });
 };

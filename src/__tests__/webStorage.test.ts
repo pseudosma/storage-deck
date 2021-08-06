@@ -83,7 +83,7 @@ describe("when using localStorage", () => {
     expect(retrieveFromLocalStorage("1234")).toBeNull();
     expect(window.localStorage.getItem("1234")).toBeNull();
   });
-  it("should allow retrieval by arrays and regEx", () => {
+  it("should allow retrieval by arrays, regEx, and searchables", () => {
     // add
     addToLocalStorage({ key: "foo", value: "1234" });
     addToLocalStorage({ key: "1234", value: "bar" });
@@ -104,6 +104,28 @@ describe("when using localStorage", () => {
     expect(f.length).toStrictEqual(2);
     const g = retrieveFromLocalStorage(new RegExp("cat"));
     expect(g).toBeNull;
+    const h = retrieveFromLocalStorage({ string: "f", searchType: 2 });
+    expect(h.length).toStrictEqual(1);
+    const i = retrieveFromLocalStorage({ string: "foo", searchType: 2 });
+    expect(i.length).toStrictEqual(1);
+    const j = retrieveFromLocalStorage({ string: "d", searchType: 2 });
+    expect(j).toBeNull;
+    const k = retrieveFromLocalStorage({ string: "o", searchType: 1 });
+    expect(k.length).toStrictEqual(1);
+    const l = retrieveFromLocalStorage({ string: "fo", searchType: 1 });
+    expect(l.length).toStrictEqual(1);
+    const m = retrieveFromLocalStorage({ string: "foo", searchType: 1 });
+    expect(m.length).toStrictEqual(1);
+    const n = retrieveFromLocalStorage({ string: "a", searchType: 1 });
+    expect(n).toBeNull;
+    const o = retrieveFromLocalStorage({ string: "34", searchType: 0 });
+    expect(o.length).toStrictEqual(1);
+    const p = retrieveFromLocalStorage({ string: "o", searchType: 0 });
+    expect(p.length).toStrictEqual(1);
+    const q = retrieveFromLocalStorage({ string: "1234", searchType: 0 });
+    expect(q.length).toStrictEqual(1);
+    const r = retrieveFromLocalStorage({ string: "z", searchType: 0 });
+    expect(r).toBeNull;
     // clear
     clearLocalStorage();
   });
@@ -151,6 +173,30 @@ describe("when using localStorage", () => {
     ]);
     removeFromLocalStorage(new RegExp("cat"));
     expect(retrieveFromLocalStorage(new RegExp(".*")).length).toStrictEqual(2);
+    clearLocalStorage();
+    // endsWith searchable
+    addToLocalStorage([
+      { key: "foo", value: "1234" },
+      { key: "1234", value: "bar" }
+    ]);
+    removeFromLocalStorage({ string: "o", searchType: 0 });
+    expect(retrieveFromLocalStorage(new RegExp(".*")).length).toStrictEqual(1);
+    clearLocalStorage();
+    // contains searchable
+    addToLocalStorage([
+      { key: "foo", value: "1234" },
+      { key: "1234", value: "bar" }
+    ]);
+    removeFromLocalStorage({ string: "23", searchType: 1 });
+    expect(retrieveFromLocalStorage(new RegExp(".*")).length).toStrictEqual(1);
+    clearLocalStorage();
+    // beginsWith searchable
+    addToLocalStorage([
+      { key: "foo", value: "1234" },
+      { key: "1234", value: "bar" }
+    ]);
+    removeFromLocalStorage({ string: "fo", searchType: 2 });
+    expect(retrieveFromLocalStorage(new RegExp(".*")).length).toStrictEqual(1);
     clearLocalStorage();
   });
   it("should use create and use localOverflowStorage if we've exceeded size limits (QuotaExceedError)", () => {
@@ -232,7 +278,7 @@ describe("when using sessionStorage", () => {
     expect(retrieveFromSessionStorage("1234")).toBeNull();
     expect(window.sessionStorage.getItem("1234")).toBeNull();
   });
-  it("should allow retrieval by arrays and regEx", () => {
+  it("should allow retrieval by arrays, regEx, and searchables", () => {
     // add
     addToSessionStorage({ key: "foo", value: "1234" });
     addToSessionStorage({ key: "1234", value: "bar" });
@@ -253,8 +299,30 @@ describe("when using sessionStorage", () => {
     expect(f.length).toStrictEqual(2);
     const g = retrieveFromSessionStorage(new RegExp("cat"));
     expect(g).toBeNull;
+    const h = retrieveFromSessionStorage({ string: "f", searchType: 2 });
+    expect(h.length).toStrictEqual(1);
+    const i = retrieveFromSessionStorage({ string: "foo", searchType: 2 });
+    expect(i.length).toStrictEqual(1);
+    const j = retrieveFromSessionStorage({ string: "d", searchType: 2 });
+    expect(j).toBeNull;
+    const k = retrieveFromSessionStorage({ string: "o", searchType: 1 });
+    expect(k.length).toStrictEqual(1);
+    const l = retrieveFromSessionStorage({ string: "fo", searchType: 1 });
+    expect(l.length).toStrictEqual(1);
+    const m = retrieveFromSessionStorage({ string: "foo", searchType: 1 });
+    expect(m.length).toStrictEqual(1);
+    const n = retrieveFromSessionStorage({ string: "a", searchType: 1 });
+    expect(n).toBeNull;
+    const o = retrieveFromSessionStorage({ string: "34", searchType: 0 });
+    expect(o.length).toStrictEqual(1);
+    const p = retrieveFromSessionStorage({ string: "o", searchType: 0 });
+    expect(p.length).toStrictEqual(1);
+    const q = retrieveFromSessionStorage({ string: "1234", searchType: 0 });
+    expect(q.length).toStrictEqual(1);
+    const r = retrieveFromSessionStorage({ string: "z", searchType: 0 });
+    expect(r).toBeNull;
     // clear
-    clearSessionStorage();
+    clearLocalStorage();
   });
   it("should allow removal by arrays and regEx", () => {
     // by keys
@@ -303,6 +371,36 @@ describe("when using sessionStorage", () => {
     removeFromSessionStorage(new RegExp("cat"));
     expect(retrieveFromSessionStorage(new RegExp(".*")).length).toStrictEqual(
       2
+    );
+    clearSessionStorage();
+    // endsWith searchable
+    addToSessionStorage([
+      { key: "foo", value: "1234" },
+      { key: "1234", value: "bar" }
+    ]);
+    removeFromSessionStorage({ string: "o", searchType: 0 });
+    expect(retrieveFromSessionStorage(new RegExp(".*")).length).toStrictEqual(
+      1
+    );
+    clearSessionStorage();
+    // contains searchable
+    addToSessionStorage([
+      { key: "foo", value: "1234" },
+      { key: "1234", value: "bar" }
+    ]);
+    removeFromSessionStorage({ string: "23", searchType: 1 });
+    expect(retrieveFromSessionStorage(new RegExp(".*")).length).toStrictEqual(
+      1
+    );
+    clearSessionStorage();
+    // beginsWith searchable
+    addToSessionStorage([
+      { key: "foo", value: "1234" },
+      { key: "1234", value: "bar" }
+    ]);
+    removeFromSessionStorage({ string: "fo", searchType: 2 });
+    expect(retrieveFromSessionStorage(new RegExp(".*")).length).toStrictEqual(
+      1
     );
     clearSessionStorage();
   });

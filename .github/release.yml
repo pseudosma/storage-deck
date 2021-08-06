@@ -1,0 +1,34 @@
+name: Release
+
+on: create
+
+jobs:
+  releaseJob:
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/release'
+    env:
+      VERSION: 0
+      ACTIONS_ALLOW_UNSECURE_COMMANDS: true
+    steps:
+      - uses: actions/checkout@v1
+      - uses: actions/setup-node@v1
+      - name: Build and Update CHANGELOG
+        run: |
+            VER=$(cat package.json | grep version | head | awk '{ print $2 }' | sed 's/[",]//g' | tr -d '[[:space:]]')
+            echo "::set-env name=VERSION::$VER"
+            npm ci
+            tsc
+            echo "updating changelog for version $VER"
+            sed -i 's/# UNRELEASED.*/# UNRELEASED\n\n# '$VER'/g' CHANGELOG.md
+      - name: Make New Tagged Release Branch and PR
+        uses: peter-evans/create-pull-request@v3
+        with:
+          branch: ${{ format('release-{0}', env.VERSION) }}
+          commit-message: 'Update CHANGELOG'
+          title: 'Update CHANGELOG'
+          base: 'master'
+      - name: Delete branch
+        uses: dawidd6/action-delete-branch@v3
+        with:
+          github_token: ${{secrets.GITHUB_TOKEN}}
+          branches: release

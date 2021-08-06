@@ -1,4 +1,4 @@
-# Storage Deck  ![build](https://img.shields.io/travis/pseudosma/storage-deck) ![coverage](https://img.shields.io/coveralls/github/pseudosma/storage-deck) ![license](https://img.shields.io/npm/l/storage-deck)
+# Storage Deck  [![Test](https://github.com/pseudosma/storage-deck/actions/workflows/push.yml/badge.svg?branch=master)](https://github.com/pseudosma/storage-deck/actions/workflows/push.yml) [![Coverage Status](https://coveralls.io/repos/github/pseudosma/storage-deck/badge.svg?branch=master)](https://coveralls.io/github/pseudosma/storage-deck?branch=master) ![License](https://img.shields.io/npm/l/storage-deck)
 
 ## Features
 Storage Deck is a robust interface for interacting with a browser's localStorage and sessionStorage, capable of avoiding some of the common problems that come from using web storage directly. Some of the key features are:
@@ -19,11 +19,13 @@ Another limitation of localStorage and sessionStorage is that data must be store
 
 A typical usage scenario could include using custom storage to temporarily store javascript File objects or even function references, both of which cannot be converted with JSON.stringify, in a convenient and globally available spot.
 
-### What's new in version 1.0.0?
+### What's new in version 2.0.0?
 
-Now you can add items to storage in bulk, as well as retrieve and remove them in bulk.
+Storage-Deck now makes use of a [Searchable](https://github.com/pseudosma/searchability) type inside a StorageKey, as well as the original String and RegExp types. Searchables pair a string, which is the partial key to be searched for, along with the built-in search that needs to be performed: *EndsWith*, *Includes*, or *StartsWith*.
 
-The retrieval and removal functions also support use of RegEx searches to find items.
+```typescript
+{string: "example", searchType: SearchType.endsWith }
+```
 
 ## Usage
 
@@ -50,6 +52,7 @@ clearLocalStorage()
 removeFromLocalStorage(key: string)
 // remove multiple items from storage
 removeFromLocalStorage(key: RegExp)
+removeFromLocalStorage(key: Searchable)
 removeFromLocalStorage(key: [string, string])
 removeFromLocalStorage(key: [string, RegExp])
 ```
@@ -60,6 +63,7 @@ removeFromLocalStorage(key: [string, RegExp])
 retrieveFromLocalStorage(key: string): string | StorageKeyValuePair[]
 // retrieve multiple items from storage
 retrieveFromLocalStorage(key: RegExp)
+retrieveFromLocalStorage(key: Searchable)
 retrieveFromLocalStorage(key: [string, string])
 retrieveFromLocalStorage(key: [string, RegExp])
 ```
@@ -85,6 +89,7 @@ clearSessionStorage()
 removeFromSessionStorage(key: string)
 // remove multiple items from storage
 removeFromSessionStorage(key: RegExp)
+removeFromSessionStorage(key: Searchable)
 removeFromSessionStorage(key: [string, string])
 removeFromSessionStorage(key: [string, RegExp])
 ```
@@ -95,6 +100,7 @@ removeFromSessionStorage(key: [string, RegExp])
 retrieveFromSessionStorage(key: string): string | StorageKeyValuePair[]
 // retrieve multiple items from storage
 retrieveFromSessionStorage(key: RegExp)
+retrieveFromSessionStorage(key: Searchable)
 retrieveFromSessionStorage(key: [string, string])
 retrieveFromSessionStorage(key: [string, RegExp])
 ```

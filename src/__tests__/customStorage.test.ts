@@ -39,7 +39,7 @@ describe("when using createNewStorage", () => {
       createNewStorage("sessionOverflowStorage");
     }).toThrow();
   });
-  it("should be deletable", () => {
+  it("should be delete-able", () => {
     expect((window as any).testOne).not.toBeUndefined();
     deleteStorage("testOne");
     expect((window as any).testOne).toBeUndefined();
@@ -150,8 +150,32 @@ describe("when using custom storage with arrays in the params", () => {
       }
     });
   });
-  it("should retrieve all keys without dupes matching RegExp and strings with returnAll", () => {
-    const r = retrieveFromStorage(["test", new RegExp(".*", "g")], "testTwo");
+  it("should retrieve all keys without dupes using Searchables with returnAll", () => {
+    const r = retrieveFromStorage(
+      [
+        { string: "es", searchType: 1 },
+        { string: "23", searchType: 1 }
+      ],
+      "testTwo"
+    );
+    expect(r!.length).toStrictEqual(2);
+    //order will be different
+    (r as StorageKeyValuePair[]).forEach(o => {
+      if (o.key === "1234") {
+        expect(o.value).toStrictEqual("test");
+      } else if (o.key === "test") {
+        expect(o.value).toStrictEqual("1234");
+      } else {
+        //force error if it's something else
+        expect(true).toStrictEqual(false);
+      }
+    });
+  });
+  it("should retrieve all keys without dupes matching strings, RegExp, and Searchables with returnAll", () => {
+    const r = retrieveFromStorage(
+      ["test", new RegExp(".*", "g"), { string: "te", searchType: 2 }],
+      "testTwo"
+    );
     expect(r!.length).toStrictEqual(2);
     //order might be different on because the dupes get removed
     (r as StorageKeyValuePair[]).forEach(o => {
@@ -180,9 +204,28 @@ describe("when using custom storage with arrays in the params", () => {
     const r = retrieveFromStorage(["test", "1234"], "testTwo");
     expect(r).toBeNull;
   });
+  it("should remove by Searchable", () => {
+    removeFromStorage({ string: "test", searchType: 2 }, "testTwo");
+    const r = retrieveFromStorage(["test5678", "test1234"], "testTwo");
+    expect(r).toBeNull;
+  });
+  it("should remove with multiple Searchables", () => {
+    removeFromStorage(
+      [
+        { string: "cat", searchType: 2 },
+        { string: "dog", searchType: 0 }
+      ],
+      "testTwo"
+    );
+    const r = retrieveFromStorage(["cat1234", "1234dog"], "testTwo");
+    expect(r).toBeNull;
+  });
   it("should removeAll with mixed values", () => {
-    removeFromStorage(["test", new RegExp("[0-9]*")], "testTwo");
-    const r = retrieveFromStorage(["test", "1234"], "testTwo");
+    removeFromStorage(
+      ["test", new RegExp("[0-9]*"), { string: "cat", searchType: 2 }],
+      "testTwo"
+    );
+    const r = retrieveFromStorage(["test", "1234", "catABC"], "testTwo");
     expect(r).toBeNull;
   });
   it("should only target specific values with remove", () => {
