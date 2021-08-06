@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1628220588370" clover="3.2.0">
-  <project timestamp="1628220588371" name="All files">
+<coverage generated="1628223544775" clover="3.2.0">
+  <project timestamp="1628223544775" name="All files">
     <metrics statements="193" coveredstatements="193" conditionals="84" coveredconditionals="84" methods="43" coveredmethods="43" elements="320" coveredelements="320" complexity="0" loc="193" ncloc="193" packages="1" files="5" classes="5"/>
     <file name="customStorage.ts" path="/home/dm/creations/node/storage-deck/src/customStorage.ts">
       <metrics statements="20" coveredstatements="20" conditionals="2" coveredconditionals="2" methods="6" coveredmethods="6"/>

@@ -1,5 +1,5 @@
 TN:
-SF:/home/dm/creations/node/storage-deck/src/customStorage.ts
+SF:src/customStorage.ts
 FN:16,(anonymous_0)
 FN:27,(anonymous_1)
 FN:38,(anonymous_2)
@@ -42,7 +42,7 @@ BRF:2
 BRH:2
 end_of_record
 TN:
-SF:/home/dm/creations/node/storage-deck/src/genericFuncs.ts
+SF:src/genericFuncs.ts
 FN:4,(anonymous_0)
 FN:5,(anonymous_1)
 FN:14,(anonymous_2)
@@ -183,7 +183,7 @@ BRF:42
 BRH:42
 end_of_record
 TN:
-SF:/home/dm/creations/node/storage-deck/src/index.ts
+SF:src/index.ts
 FNF:0
 FNH:0
 DA:1,2
@@ -208,7 +208,7 @@ BRF:0
 BRH:0
 end_of_record
 TN:
-SF:/home/dm/creations/node/storage-deck/src/storageDeck.ts
+SF:src/storageDeck.ts
 FN:9,(anonymous_0)
 FN:37,(anonymous_1)
 FN:43,(anonymous_2)
@@ -308,7 +308,7 @@ BRF:24
 BRH:24
 end_of_record
 TN:
-SF:/home/dm/creations/node/storage-deck/src/webStorage.ts
+SF:src/webStorage.ts
 FN:19,(anonymous_0)
 FN:50,(anonymous_1)
 FN:60,(anonymous_2)
