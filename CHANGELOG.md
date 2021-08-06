@@ -1,4 +1,6 @@
 # UNRELEASED
+
+# 2.0.0
     * Added a 'Searchable' to the list of types accepted as a StorageKey
     * Added a changelog
     * Switched from Travis-CI to Github Actions
