@@ -35,6 +35,7 @@
   "devDependencies": {
     "@types/jest": "^24.9.0",
     "acorn": ">=5.7.4",
+    "ansi-regex": ">=5.0.1",
     "coveralls": "^3.0.9",
     "hosted-git-info": ">=2.8.9",
     "jest": "^27.0.6",
