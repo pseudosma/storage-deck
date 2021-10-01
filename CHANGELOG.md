@@ -1,4 +1,6 @@
 # UNRELEASED
+
+# 2.1.0
     * Upgraded to Searchability version 2
     * Added more specific types for the return value from retrieveFromLocalStorage and retrieveFromSessionStorage
     * Updated dev dependencies
