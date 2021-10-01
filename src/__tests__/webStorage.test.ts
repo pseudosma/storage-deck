@@ -88,43 +88,43 @@ describe("when using localStorage", () => {
     addToLocalStorage({ key: "foo", value: "1234" });
     addToLocalStorage({ key: "1234", value: "bar" });
     const a = retrieveFromLocalStorage(["foo", "1234"]);
-    expect(a.length).toStrictEqual(2);
+    expect((a as string).length).toStrictEqual(2);
     const b = retrieveFromLocalStorage(new RegExp(".*"));
-    expect(b.length).toStrictEqual(2);
+    expect((b as string).length).toStrictEqual(2);
     const c = retrieveFromLocalStorage(new RegExp("[a-z]*"));
-    expect(c.length).toStrictEqual(1);
+    expect((c as string).length).toStrictEqual(1);
     const d = retrieveFromLocalStorage(new RegExp("[0-9]*"));
-    expect(d.length).toStrictEqual(1);
+    expect((d as string).length).toStrictEqual(1);
     const e = retrieveFromLocalStorage([
       new RegExp("[0-9]*"),
       new RegExp("[a-z]*")
     ]);
-    expect(e.length).toStrictEqual(2);
+    expect((e as string).length).toStrictEqual(2);
     const f = retrieveFromLocalStorage(["1234", new RegExp("[a-z]*")]);
-    expect(f.length).toStrictEqual(2);
+    expect((f as string).length).toStrictEqual(2);
     const g = retrieveFromLocalStorage(new RegExp("cat"));
     expect(g).toBeNull;
-    const h = retrieveFromLocalStorage({ string: "f", searchType: 2 });
-    expect(h.length).toStrictEqual(1);
-    const i = retrieveFromLocalStorage({ string: "foo", searchType: 2 });
-    expect(i.length).toStrictEqual(1);
-    const j = retrieveFromLocalStorage({ string: "d", searchType: 2 });
+    const h = retrieveFromLocalStorage({ searchTerm: "f", searchType: 2 });
+    expect((h as string).length).toStrictEqual(1);
+    const i = retrieveFromLocalStorage({ searchTerm: "foo", searchType: 2 });
+    expect((i as string).length).toStrictEqual(1);
+    const j = retrieveFromLocalStorage({ searchTerm: "d", searchType: 2 });
     expect(j).toBeNull;
-    const k = retrieveFromLocalStorage({ string: "o", searchType: 1 });
-    expect(k.length).toStrictEqual(1);
-    const l = retrieveFromLocalStorage({ string: "fo", searchType: 1 });
-    expect(l.length).toStrictEqual(1);
-    const m = retrieveFromLocalStorage({ string: "foo", searchType: 1 });
-    expect(m.length).toStrictEqual(1);
-    const n = retrieveFromLocalStorage({ string: "a", searchType: 1 });
+    const k = retrieveFromLocalStorage({ searchTerm: "o", searchType: 1 });
+    expect((k as string).length).toStrictEqual(1);
+    const l = retrieveFromLocalStorage({ searchTerm: "fo", searchType: 1 });
+    expect((l as string).length).toStrictEqual(1);
+    const m = retrieveFromLocalStorage({ searchTerm: "foo", searchType: 1 });
+    expect((m as string).length).toStrictEqual(1);
+    const n = retrieveFromLocalStorage({ searchTerm: "a", searchType: 1 });
     expect(n).toBeNull;
-    const o = retrieveFromLocalStorage({ string: "34", searchType: 0 });
-    expect(o.length).toStrictEqual(1);
-    const p = retrieveFromLocalStorage({ string: "o", searchType: 0 });
-    expect(p.length).toStrictEqual(1);
-    const q = retrieveFromLocalStorage({ string: "1234", searchType: 0 });
-    expect(q.length).toStrictEqual(1);
-    const r = retrieveFromLocalStorage({ string: "z", searchType: 0 });
+    const o = retrieveFromLocalStorage({ searchTerm: "34", searchType: 0 });
+    expect((o as string).length).toStrictEqual(1);
+    const p = retrieveFromLocalStorage({ searchTerm: "o", searchType: 0 });
+    expect((p as string).length).toStrictEqual(1);
+    const q = retrieveFromLocalStorage({ searchTerm: "1234", searchType: 0 });
+    expect((q as string).length).toStrictEqual(1);
+    const r = retrieveFromLocalStorage({ searchTerm: "z", searchType: 0 });
     expect(r).toBeNull;
     // clear
     clearLocalStorage();
@@ -148,7 +148,7 @@ describe("when using localStorage", () => {
       { key: "1234", value: "bar" }
     ]);
     removeFromLocalStorage(new RegExp("[a-z]*"));
-    expect(retrieveFromLocalStorage(["foo", "1234"]).length).toStrictEqual(1);
+    expect((retrieveFromLocalStorage(["foo", "1234"]) as []).length).toStrictEqual(1);
     clearLocalStorage();
     // by multiple RegEx matches
     addToLocalStorage([
@@ -157,7 +157,7 @@ describe("when using localStorage", () => {
       { key: "ABCD", value: "abcd" }
     ]);
     removeFromLocalStorage([new RegExp("[0-9]*"), new RegExp("[a-z]*")]);
-    expect(retrieveFromLocalStorage(new RegExp(".*")).length).toStrictEqual(1);
+    expect((retrieveFromLocalStorage(new RegExp(".*")) as []).length).toStrictEqual(1);
     clearLocalStorage();
     // mixed inputs
     addToLocalStorage([
@@ -172,31 +172,31 @@ describe("when using localStorage", () => {
       { key: "1234", value: "bar" }
     ]);
     removeFromLocalStorage(new RegExp("cat"));
-    expect(retrieveFromLocalStorage(new RegExp(".*")).length).toStrictEqual(2);
+    expect((retrieveFromLocalStorage(new RegExp(".*")) as []).length).toStrictEqual(2);
     clearLocalStorage();
     // endsWith searchable
     addToLocalStorage([
       { key: "foo", value: "1234" },
       { key: "1234", value: "bar" }
     ]);
-    removeFromLocalStorage({ string: "o", searchType: 0 });
-    expect(retrieveFromLocalStorage(new RegExp(".*")).length).toStrictEqual(1);
+    removeFromLocalStorage({ searchTerm: "o", searchType: 0 });
+    expect((retrieveFromLocalStorage(new RegExp(".*")) as []).length).toStrictEqual(1);
     clearLocalStorage();
     // contains searchable
     addToLocalStorage([
       { key: "foo", value: "1234" },
       { key: "1234", value: "bar" }
     ]);
-    removeFromLocalStorage({ string: "23", searchType: 1 });
-    expect(retrieveFromLocalStorage(new RegExp(".*")).length).toStrictEqual(1);
+    removeFromLocalStorage({ searchTerm: "23", searchType: 1 });
+    expect((retrieveFromLocalStorage(new RegExp(".*")) as []).length).toStrictEqual(1);
     clearLocalStorage();
     // beginsWith searchable
     addToLocalStorage([
       { key: "foo", value: "1234" },
       { key: "1234", value: "bar" }
     ]);
-    removeFromLocalStorage({ string: "fo", searchType: 2 });
-    expect(retrieveFromLocalStorage(new RegExp(".*")).length).toStrictEqual(1);
+    removeFromLocalStorage({ searchTerm: "fo", searchType: 2 });
+    expect((retrieveFromLocalStorage(new RegExp(".*")) as []).length).toStrictEqual(1);
     clearLocalStorage();
   });
   it("should use create and use localOverflowStorage if we've exceeded size limits (QuotaExceedError)", () => {
@@ -231,12 +231,12 @@ describe("when using localStorage", () => {
       { key: "test3", value: "foo" },
       { key: "test4", value: "bar" }
     ]);
-    expect(retrieveFromLocalStorage(["test1", "test3"]).length).toStrictEqual(
+    expect((retrieveFromLocalStorage(["test1", "test3"]) as []).length).toStrictEqual(
       2
     );
     expect(retrieveFromLocalStorage("testB")).not.toBeNull();
     expect(
-      retrieveFromLocalStorage(new RegExp("[a-z]*?[0-9]")).length
+      (retrieveFromLocalStorage(new RegExp("[a-z]*?[0-9]")) as []).length
     ).toStrictEqual(4);
     clearLocalStorage();
   });
@@ -283,43 +283,43 @@ describe("when using sessionStorage", () => {
     addToSessionStorage({ key: "foo", value: "1234" });
     addToSessionStorage({ key: "1234", value: "bar" });
     const a = retrieveFromSessionStorage(["foo", "1234"]);
-    expect(a.length).toStrictEqual(2);
+    expect((a as []).length).toStrictEqual(2);
     const b = retrieveFromSessionStorage(new RegExp(".*"));
-    expect(b.length).toStrictEqual(2);
+    expect((b as []).length).toStrictEqual(2);
     const c = retrieveFromSessionStorage(new RegExp("[a-z]*"));
-    expect(c.length).toStrictEqual(1);
+    expect((c as []).length).toStrictEqual(1);
     const d = retrieveFromSessionStorage(new RegExp("[0-9]*"));
-    expect(d.length).toStrictEqual(1);
+    expect((d as []).length).toStrictEqual(1);
     const e = retrieveFromSessionStorage([
       new RegExp("[0-9]*"),
       new RegExp("[a-z]*")
     ]);
-    expect(e.length).toStrictEqual(2);
+    expect((e as []).length).toStrictEqual(2);
     const f = retrieveFromSessionStorage(["1234", new RegExp("[a-z]*")]);
-    expect(f.length).toStrictEqual(2);
+    expect((f as []).length).toStrictEqual(2);
     const g = retrieveFromSessionStorage(new RegExp("cat"));
     expect(g).toBeNull;
-    const h = retrieveFromSessionStorage({ string: "f", searchType: 2 });
-    expect(h.length).toStrictEqual(1);
-    const i = retrieveFromSessionStorage({ string: "foo", searchType: 2 });
-    expect(i.length).toStrictEqual(1);
-    const j = retrieveFromSessionStorage({ string: "d", searchType: 2 });
+    const h = retrieveFromSessionStorage({ searchTerm: "f", searchType: 2 });
+    expect((h as []).length).toStrictEqual(1);
+    const i = retrieveFromSessionStorage({ searchTerm: "foo", searchType: 2 });
+    expect((i as []).length).toStrictEqual(1);
+    const j = retrieveFromSessionStorage({ searchTerm: "d", searchType: 2 });
     expect(j).toBeNull;
-    const k = retrieveFromSessionStorage({ string: "o", searchType: 1 });
-    expect(k.length).toStrictEqual(1);
-    const l = retrieveFromSessionStorage({ string: "fo", searchType: 1 });
-    expect(l.length).toStrictEqual(1);
-    const m = retrieveFromSessionStorage({ string: "foo", searchType: 1 });
-    expect(m.length).toStrictEqual(1);
-    const n = retrieveFromSessionStorage({ string: "a", searchType: 1 });
+    const k = retrieveFromSessionStorage({ searchTerm: "o", searchType: 1 });
+    expect((k as []).length).toStrictEqual(1);
+    const l = retrieveFromSessionStorage({ searchTerm: "fo", searchType: 1 });
+    expect((l as []).length).toStrictEqual(1);
+    const m = retrieveFromSessionStorage({ searchTerm: "foo", searchType: 1 });
+    expect((m as []).length).toStrictEqual(1);
+    const n = retrieveFromSessionStorage({ searchTerm: "a", searchType: 1 });
     expect(n).toBeNull;
-    const o = retrieveFromSessionStorage({ string: "34", searchType: 0 });
-    expect(o.length).toStrictEqual(1);
-    const p = retrieveFromSessionStorage({ string: "o", searchType: 0 });
-    expect(p.length).toStrictEqual(1);
-    const q = retrieveFromSessionStorage({ string: "1234", searchType: 0 });
-    expect(q.length).toStrictEqual(1);
-    const r = retrieveFromSessionStorage({ string: "z", searchType: 0 });
+    const o = retrieveFromSessionStorage({ searchTerm: "34", searchType: 0 });
+    expect((o as []).length).toStrictEqual(1);
+    const p = retrieveFromSessionStorage({ searchTerm: "o", searchType: 0 });
+    expect((p as []).length).toStrictEqual(1);
+    const q = retrieveFromSessionStorage({ searchTerm: "1234", searchType: 0 });
+    expect((q as []).length).toStrictEqual(1);
+    const r = retrieveFromSessionStorage({ searchTerm: "z", searchType: 0 });
     expect(r).toBeNull;
     // clear
     clearLocalStorage();
@@ -343,7 +343,7 @@ describe("when using sessionStorage", () => {
       { key: "1234", value: "bar" }
     ]);
     removeFromSessionStorage(new RegExp("[a-z]*"));
-    expect(retrieveFromSessionStorage(["foo", "1234"]).length).toStrictEqual(1);
+    expect((retrieveFromSessionStorage(["foo", "1234"])as []).length).toStrictEqual(1);
     clearSessionStorage();
     // by multiple RegEx matches
     addToSessionStorage([
@@ -352,7 +352,7 @@ describe("when using sessionStorage", () => {
       { key: "ABCD", value: "abcd" }
     ]);
     removeFromSessionStorage([new RegExp("[0-9]*"), new RegExp("[a-z]*")]);
-    expect(retrieveFromSessionStorage(new RegExp(".*")).length).toStrictEqual(
+    expect((retrieveFromSessionStorage(new RegExp(".*")) as []).length).toStrictEqual(
       1
     );
     clearSessionStorage();
@@ -369,7 +369,7 @@ describe("when using sessionStorage", () => {
       { key: "1234", value: "bar" }
     ]);
     removeFromSessionStorage(new RegExp("cat"));
-    expect(retrieveFromSessionStorage(new RegExp(".*")).length).toStrictEqual(
+    expect((retrieveFromSessionStorage(new RegExp(".*")) as []).length).toStrictEqual(
       2
     );
     clearSessionStorage();
@@ -378,8 +378,8 @@ describe("when using sessionStorage", () => {
       { key: "foo", value: "1234" },
       { key: "1234", value: "bar" }
     ]);
-    removeFromSessionStorage({ string: "o", searchType: 0 });
-    expect(retrieveFromSessionStorage(new RegExp(".*")).length).toStrictEqual(
+    removeFromSessionStorage({ searchTerm: "o", searchType: 0 });
+    expect((retrieveFromSessionStorage(new RegExp(".*")) as []).length).toStrictEqual(
       1
     );
     clearSessionStorage();
@@ -388,8 +388,8 @@ describe("when using sessionStorage", () => {
       { key: "foo", value: "1234" },
       { key: "1234", value: "bar" }
     ]);
-    removeFromSessionStorage({ string: "23", searchType: 1 });
-    expect(retrieveFromSessionStorage(new RegExp(".*")).length).toStrictEqual(
+    removeFromSessionStorage({ searchTerm: "23", searchType: 1 });
+    expect((retrieveFromSessionStorage(new RegExp(".*")) as []).length).toStrictEqual(
       1
     );
     clearSessionStorage();
@@ -398,8 +398,8 @@ describe("when using sessionStorage", () => {
       { key: "foo", value: "1234" },
       { key: "1234", value: "bar" }
     ]);
-    removeFromSessionStorage({ string: "fo", searchType: 2 });
-    expect(retrieveFromSessionStorage(new RegExp(".*")).length).toStrictEqual(
+    removeFromSessionStorage({ searchTerm: "fo", searchType: 2 });
+    expect((retrieveFromSessionStorage(new RegExp(".*")) as []).length).toStrictEqual(
       1
     );
     clearSessionStorage();
@@ -442,12 +442,12 @@ describe("when using sessionStorage", () => {
       { key: "test3", value: "foo" },
       { key: "test4", value: "bar" }
     ]);
-    expect(retrieveFromSessionStorage(["test1", "test3"]).length).toStrictEqual(
+    expect((retrieveFromSessionStorage(["test1", "test3"]) as []).length).toStrictEqual(
       2
     );
     expect(retrieveFromSessionStorage("testB")).not.toBeNull();
     expect(
-      retrieveFromSessionStorage(new RegExp("[a-z]*?[0-9]")).length
+      (retrieveFromSessionStorage(new RegExp("[a-z]*?[0-9]")) as []).length
     ).toStrictEqual(4);
     clearSessionStorage();
   });

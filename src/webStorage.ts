@@ -49,7 +49,7 @@ const retrieveFromDefaultStorage = (
 
 export const retrieveFromLocalStorage = (
   key: StorageKey | StorageKey[]
-): any => {
+): null | string | StorageKeyValuePair[] => {
   return retrieveFromDefaultStorage(
     key,
     reservedBaseNames[0],
@@ -59,7 +59,7 @@ export const retrieveFromLocalStorage = (
 
 export const retrieveFromSessionStorage = (
   key: StorageKey | StorageKey[]
-): any => {
+): null | string | StorageKeyValuePair[] => {
   return retrieveFromDefaultStorage(
     key,
     reservedBaseNames[1],
