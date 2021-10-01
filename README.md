@@ -19,12 +19,12 @@ Another limitation of localStorage and sessionStorage is that data must be store
 
 A typical usage scenario could include using custom storage to temporarily store javascript File objects or even function references, both of which cannot be converted with JSON.stringify, in a convenient and globally available spot.
 
-### What's new in version 2.0.0?
+### What's new in version 2.1.0?
 
-Storage-Deck now makes use of a [Searchable](https://github.com/pseudosma/searchability) type inside a StorageKey, as well as the original String and RegExp types. Searchables pair a string, which is the partial key to be searched for, along with the built-in search that needs to be performed: *EndsWith*, *Includes*, or *StartsWith*.
+Storage-Deck now makes use of a [Searchable](https://github.com/pseudosma/searchability) object inside a StorageKey, as well as the original String and RegExp types. Searchables pair a string, which is the partial key to be searched for, along with the built-in search that needs to be performed: *EndsWith*, *Includes*, or *StartsWith*.
 
 ```typescript
-{string: "example", searchType: SearchType.endsWith }
+{searchTerm: "example", searchType: SearchType.EndsWith }
 ```
 
 ## Usage
@@ -60,7 +60,7 @@ removeFromLocalStorage(key: [string, RegExp])
 #### Get items
 ```typescript
 // retrieve a single item from storage
-retrieveFromLocalStorage(key: string): string | StorageKeyValuePair[]
+retrieveFromLocalStorage(key: string): null | string | StorageKeyValuePair[]
 // retrieve multiple items from storage
 retrieveFromLocalStorage(key: RegExp)
 retrieveFromLocalStorage(key: Searchable)
@@ -97,7 +97,7 @@ removeFromSessionStorage(key: [string, RegExp])
 #### Get items
 ```typescript
 // retrieve a single item from storage
-retrieveFromSessionStorage(key: string): string | StorageKeyValuePair[]
+retrieveFromSessionStorage(key: string): null | string | StorageKeyValuePair[]
 // retrieve multiple items from storage
 retrieveFromSessionStorage(key: RegExp)
 retrieveFromSessionStorage(key: Searchable)
