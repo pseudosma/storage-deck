@@ -1,4 +1,7 @@
 # UNRELEASED
+    * Upgraded to Searchability version 2
+    * Added more specific types for the return value from retrieveFromLocalStorage and retrieveFromSessionStorage
+    * Updated dev dependencies
 
 # 2.0.0
     * Added a 'Searchable' to the list of types accepted as a StorageKey

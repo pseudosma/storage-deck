@@ -153,8 +153,8 @@ describe("when using custom storage with arrays in the params", () => {
   it("should retrieve all keys without dupes using Searchables with returnAll", () => {
     const r = retrieveFromStorage(
       [
-        { string: "es", searchType: 1 },
-        { string: "23", searchType: 1 }
+        { searchTerm: "es", searchType: 1 },
+        { searchTerm: "23", searchType: 1 }
       ],
       "testTwo"
     );
@@ -173,7 +173,7 @@ describe("when using custom storage with arrays in the params", () => {
   });
   it("should retrieve all keys without dupes matching strings, RegExp, and Searchables with returnAll", () => {
     const r = retrieveFromStorage(
-      ["test", new RegExp(".*", "g"), { string: "te", searchType: 2 }],
+      ["test", new RegExp(".*", "g"), { searchTerm: "te", searchType: 2 }],
       "testTwo"
     );
     expect(r!.length).toStrictEqual(2);
@@ -205,15 +205,15 @@ describe("when using custom storage with arrays in the params", () => {
     expect(r).toBeNull;
   });
   it("should remove by Searchable", () => {
-    removeFromStorage({ string: "test", searchType: 2 }, "testTwo");
+    removeFromStorage({ searchTerm: "test", searchType: 2 }, "testTwo");
     const r = retrieveFromStorage(["test5678", "test1234"], "testTwo");
     expect(r).toBeNull;
   });
   it("should remove with multiple Searchables", () => {
     removeFromStorage(
       [
-        { string: "cat", searchType: 2 },
-        { string: "dog", searchType: 0 }
+        { searchTerm: "cat", searchType: 2 },
+        { searchTerm: "dog", searchType: 0 }
       ],
       "testTwo"
     );
@@ -222,7 +222,7 @@ describe("when using custom storage with arrays in the params", () => {
   });
   it("should removeAll with mixed values", () => {
     removeFromStorage(
-      ["test", new RegExp("[0-9]*"), { string: "cat", searchType: 2 }],
+      ["test", new RegExp("[0-9]*"), { searchTerm: "cat", searchType: 2 }],
       "testTwo"
     );
     const r = retrieveFromStorage(["test", "1234", "catABC"], "testTwo");
