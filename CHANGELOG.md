@@ -1,4 +1,5 @@
 # UNRELEASED
+    * Updated dev dependencies
 
 # 2.1.0
     * Upgraded to Searchability version 2
