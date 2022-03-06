@@ -1,4 +1,6 @@
 # UNRELEASED
+
+# 2.1.0
     * Updated dev dependencies
 
 # 2.1.0
