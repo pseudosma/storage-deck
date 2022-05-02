@@ -33,7 +33,7 @@
     "build": "tsc"
   },
   "devDependencies": {
-    "@types/jest": "^24.9.0",
+    "@types/jest": "^27.4.1",
     "acorn": ">=5.7.4",
     "ansi-regex": ">=5.0.1",
     "coveralls": "^3.0.9",
