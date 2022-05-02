@@ -1,6 +1,6 @@
 {
   "name": "storage-deck",
-  "version": "2.1.1",
+  "version": "2.1.2",
   "description": "A robust abstraction built upon localStorage and sessionStorage with automatic fallback to global in-memory storage if browser storage is unavailable or size is exceeded.",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
@@ -33,7 +33,7 @@
     "build": "tsc"
   },
   "devDependencies": {
-    "@types/jest": "^27.4.1",
+    "@types/jest": "^24.9.0",
     "acorn": ">=5.7.4",
     "ansi-regex": ">=5.0.1",
     "coveralls": "^3.0.9",
