@@ -9,7 +9,7 @@ export declare enum StorageScheme {
 interface Store {
     [index: string]: any;
 }
-export declare type StorageKey = string | RegExp | Searchable;
+export type StorageKey = string | RegExp | Searchable;
 export interface StorageKeyValuePair {
     key: string;
     value: any;
