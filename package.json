@@ -34,6 +34,7 @@
   },
   "devDependencies": {
     "@types/jest": "^27.4.1",
+    "@types/node": "^18.11.17",
     "acorn": ">=5.7.4",
     "ansi-regex": ">=5.0.1",
     "coveralls": "^3.0.9",
@@ -48,7 +49,7 @@
     "ts-loader": "^6.2.1",
     "tslint": "^5.20.1",
     "tslint-config-prettier": "^1.18.0",
-    "typescript": "^3.7.5",
+    "typescript": "^4.9.4",
     "ws": ">=5.2.3",
     "y18n": ">=4.0.1",
     "yargs-parser": ">=13.1.2"
