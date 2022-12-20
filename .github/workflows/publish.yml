@@ -15,12 +15,12 @@ jobs:
       ACTIONS_ALLOW_UNSECURE_COMMANDS: true
     steps:
       - name: Set Version
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - run: |
             VER=$(cat package.json | grep version | head | awk '{ print $2 }' | sed 's/[",]//g' | tr -d '[[:space:]]')
             echo "::set-env name=VERSION::$VER"
       - name: Switch Branch
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           ref: ${{ format('release-{0}', env.VERSION) }}
       - name: Create Tag
