@@ -148,7 +148,9 @@ describe("when using localStorage", () => {
       { key: "1234", value: "bar" }
     ]);
     removeFromLocalStorage(new RegExp("[a-z]*"));
-    expect((retrieveFromLocalStorage(["foo", "1234"]) as []).length).toStrictEqual(1);
+    expect(
+      (retrieveFromLocalStorage(["foo", "1234"]) as []).length
+    ).toStrictEqual(1);
     clearLocalStorage();
     // by multiple RegEx matches
     addToLocalStorage([
@@ -157,7 +159,9 @@ describe("when using localStorage", () => {
       { key: "ABCD", value: "abcd" }
     ]);
     removeFromLocalStorage([new RegExp("[0-9]*"), new RegExp("[a-z]*")]);
-    expect((retrieveFromLocalStorage(new RegExp(".*")) as []).length).toStrictEqual(1);
+    expect(
+      (retrieveFromLocalStorage(new RegExp(".*")) as []).length
+    ).toStrictEqual(1);
     clearLocalStorage();
     // mixed inputs
     addToLocalStorage([
@@ -172,7 +176,9 @@ describe("when using localStorage", () => {
       { key: "1234", value: "bar" }
     ]);
     removeFromLocalStorage(new RegExp("cat"));
-    expect((retrieveFromLocalStorage(new RegExp(".*")) as []).length).toStrictEqual(2);
+    expect(
+      (retrieveFromLocalStorage(new RegExp(".*")) as []).length
+    ).toStrictEqual(2);
     clearLocalStorage();
     // endsWith searchable
     addToLocalStorage([
@@ -180,7 +186,9 @@ describe("when using localStorage", () => {
       { key: "1234", value: "bar" }
     ]);
     removeFromLocalStorage({ searchTerm: "o", searchType: 0 });
-    expect((retrieveFromLocalStorage(new RegExp(".*")) as []).length).toStrictEqual(1);
+    expect(
+      (retrieveFromLocalStorage(new RegExp(".*")) as []).length
+    ).toStrictEqual(1);
     clearLocalStorage();
     // contains searchable
     addToLocalStorage([
@@ -188,7 +196,9 @@ describe("when using localStorage", () => {
       { key: "1234", value: "bar" }
     ]);
     removeFromLocalStorage({ searchTerm: "23", searchType: 1 });
-    expect((retrieveFromLocalStorage(new RegExp(".*")) as []).length).toStrictEqual(1);
+    expect(
+      (retrieveFromLocalStorage(new RegExp(".*")) as []).length
+    ).toStrictEqual(1);
     clearLocalStorage();
     // beginsWith searchable
     addToLocalStorage([
@@ -196,7 +206,9 @@ describe("when using localStorage", () => {
       { key: "1234", value: "bar" }
     ]);
     removeFromLocalStorage({ searchTerm: "fo", searchType: 2 });
-    expect((retrieveFromLocalStorage(new RegExp(".*")) as []).length).toStrictEqual(1);
+    expect(
+      (retrieveFromLocalStorage(new RegExp(".*")) as []).length
+    ).toStrictEqual(1);
     clearLocalStorage();
   });
   it("should use create and use localOverflowStorage if we've exceeded size limits (QuotaExceedError)", () => {
@@ -231,9 +243,9 @@ describe("when using localStorage", () => {
       { key: "test3", value: "foo" },
       { key: "test4", value: "bar" }
     ]);
-    expect((retrieveFromLocalStorage(["test1", "test3"]) as []).length).toStrictEqual(
-      2
-    );
+    expect(
+      (retrieveFromLocalStorage(["test1", "test3"]) as []).length
+    ).toStrictEqual(2);
     expect(retrieveFromLocalStorage("testB")).not.toBeNull();
     expect(
       (retrieveFromLocalStorage(new RegExp("[a-z]*?[0-9]")) as []).length
@@ -343,7 +355,9 @@ describe("when using sessionStorage", () => {
       { key: "1234", value: "bar" }
     ]);
     removeFromSessionStorage(new RegExp("[a-z]*"));
-    expect((retrieveFromSessionStorage(["foo", "1234"])as []).length).toStrictEqual(1);
+    expect(
+      (retrieveFromSessionStorage(["foo", "1234"]) as []).length
+    ).toStrictEqual(1);
     clearSessionStorage();
     // by multiple RegEx matches
     addToSessionStorage([
@@ -352,9 +366,9 @@ describe("when using sessionStorage", () => {
       { key: "ABCD", value: "abcd" }
     ]);
     removeFromSessionStorage([new RegExp("[0-9]*"), new RegExp("[a-z]*")]);
-    expect((retrieveFromSessionStorage(new RegExp(".*")) as []).length).toStrictEqual(
-      1
-    );
+    expect(
+      (retrieveFromSessionStorage(new RegExp(".*")) as []).length
+    ).toStrictEqual(1);
     clearSessionStorage();
     // mixed inputs
     addToSessionStorage([
@@ -369,9 +383,9 @@ describe("when using sessionStorage", () => {
       { key: "1234", value: "bar" }
     ]);
     removeFromSessionStorage(new RegExp("cat"));
-    expect((retrieveFromSessionStorage(new RegExp(".*")) as []).length).toStrictEqual(
-      2
-    );
+    expect(
+      (retrieveFromSessionStorage(new RegExp(".*")) as []).length
+    ).toStrictEqual(2);
     clearSessionStorage();
     // endsWith searchable
     addToSessionStorage([
@@ -379,9 +393,9 @@ describe("when using sessionStorage", () => {
       { key: "1234", value: "bar" }
     ]);
     removeFromSessionStorage({ searchTerm: "o", searchType: 0 });
-    expect((retrieveFromSessionStorage(new RegExp(".*")) as []).length).toStrictEqual(
-      1
-    );
+    expect(
+      (retrieveFromSessionStorage(new RegExp(".*")) as []).length
+    ).toStrictEqual(1);
     clearSessionStorage();
     // contains searchable
     addToSessionStorage([
@@ -389,9 +403,9 @@ describe("when using sessionStorage", () => {
       { key: "1234", value: "bar" }
     ]);
     removeFromSessionStorage({ searchTerm: "23", searchType: 1 });
-    expect((retrieveFromSessionStorage(new RegExp(".*")) as []).length).toStrictEqual(
-      1
-    );
+    expect(
+      (retrieveFromSessionStorage(new RegExp(".*")) as []).length
+    ).toStrictEqual(1);
     clearSessionStorage();
     // beginsWith searchable
     addToSessionStorage([
@@ -399,9 +413,9 @@ describe("when using sessionStorage", () => {
       { key: "1234", value: "bar" }
     ]);
     removeFromSessionStorage({ searchTerm: "fo", searchType: 2 });
-    expect((retrieveFromSessionStorage(new RegExp(".*")) as []).length).toStrictEqual(
-      1
-    );
+    expect(
+      (retrieveFromSessionStorage(new RegExp(".*")) as []).length
+    ).toStrictEqual(1);
     clearSessionStorage();
   });
   it("should create and use sessionOverflowStorage if we've exceeded size limits (QuotaExceedError)", () => {
@@ -442,9 +456,9 @@ describe("when using sessionStorage", () => {
       { key: "test3", value: "foo" },
       { key: "test4", value: "bar" }
     ]);
-    expect((retrieveFromSessionStorage(["test1", "test3"]) as []).length).toStrictEqual(
-      2
-    );
+    expect(
+      (retrieveFromSessionStorage(["test1", "test3"]) as []).length
+    ).toStrictEqual(2);
     expect(retrieveFromSessionStorage("testB")).not.toBeNull();
     expect(
       (retrieveFromSessionStorage(new RegExp("[a-z]*?[0-9]")) as []).length
