@@ -1,5 +1,8 @@
 # UNRELEASED
 
+# 2.1.4
+    * Updated dev dependencies
+
 # 2.1.3
     * Updated dev dependencies
     * Updated the workflow actions to use latest versions
