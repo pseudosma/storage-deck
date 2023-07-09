@@ -1,4 +1,6 @@
 # UNRELEASED
+
+# 2.1.4
     * Updated dev dependencies
     * Updated the node version cited in workflow actions
 
