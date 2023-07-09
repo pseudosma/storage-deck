@@ -12,6 +12,8 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
+        with:
+          node-version: '14.x'
       - name: Build and Update CHANGELOG
         run: |
             VER=$(cat package.json | grep version | head | awk '{ print $2 }' | sed 's/[",]//g' | tr -d '[[:space:]]')
